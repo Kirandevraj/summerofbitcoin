@@ -7,10 +7,10 @@ def main():
 	#   "walletname": "test_desc",
 	#   "walletversion": 169900,
 	#   "format": "sqlite",
-	#   "balance": 0.00992790,
+	#   "balance": 0.00001000,
 	#   "unconfirmed_balance": 0.00000000,
 	#   "immature_balance": 0.00000000,
-	#   "txcount": 4,
+	#   "txcount": 263,
 	#   "keypoolsize": 3000,
 	#   "keypoolsize_hd_internal": 3000,
 	#   "paytxfee": 0.00000000,
@@ -36,7 +36,7 @@ def main():
 		# print(item)
 		addr = {item:0.00001}
 		addr = json.dumps(addr)
-		args = ["../bitcoin/src/bitcoin-cli","-named", "send","outputs=" + addr, "fee_rate=0"]
+		args = ["../bitcoin/src/bitcoin-cli","-named", "send","outputs=" + addr, "fee_rate=2"]
 		subprocess.call(args)
 	return
 	
