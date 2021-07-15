@@ -36,8 +36,8 @@ def main():
 		# print(item)
 		addr = {item:0.00001}
 		addr = json.dumps(addr)
-		args = ["../bitcoin/src/bitcoin-cli","-named", "send","outputs=" + addr, "fee_rate=1"]
-		p = subprocess.check_output(args)
+		args = ["../bitcoin/src/bitcoin-cli","-named", "send","outputs=" + addr, "fee_rate=0"]
+		subprocess.call(args)
 	return
 	
 if __name__ == '__main__':
