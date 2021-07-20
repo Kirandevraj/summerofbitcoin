@@ -1,44 +1,33 @@
 import subprocess
+import time
 import json
+import sys
+import csv
 
-def main():
-	# I have created a desciptor wallet.
-	# 	{
-	#   "walletname": "test_desc",
-	#   "walletversion": 169900,
-	#   "format": "sqlite",
-	#   "balance": 0.00001000,
-	#   "unconfirmed_balance": 0.00000000,
-	#   "immature_balance": 0.00000000,
-	#   "txcount": 263,
-	#   "keypoolsize": 3000,
-	#   "keypoolsize_hd_internal": 3000,
-	#   "paytxfee": 0.00000000,
-	#   "private_keys_enabled": true,
-	#   "avoid_reuse": false,
-	#   "scanning": false,
-	#   "descriptors": true
-	# }
+def main(count):
+	f = open('csv_files/duration.csv', 'w')
+	writer = csv.writer(f)
+	header = ["Number of Addresses in DB", "send duration", "listaddresses duration"]
+	writer.writerow(header)
 
-	# Generate Address:
-	# for i in range(100):
-	# 	subprocess.Popen(["../bitcoin/src/bitcoin-cli","getnewaddress"])
+	address_types = ["legacy", "p2sh-segwit", "bech32"]
+	
+	for i in range(count):
+		addr = subprocess.check_output(["bitcoin-cli","-named","getnewaddress","address_type=" + address_types[i%3]])
+		args = ["bitcoin-cli","-named", "send","outputs=" + json.dumps({addr:0.00001}), "fee_rate=2"]
 
-	#Get All the generated Addresses:
-	all_addrs = subprocess.check_output(["../bitcoin/src/bitcoin-cli","listreceivedbyaddress","0","true"])
-	print(str(all_addrs))
-	print("All")
-	all_addrs = json.loads(all_addrs)
-	just_addrs = [str(addr["address"]) for addr in all_addrs]
-	# print(just_addrs)
-	print(len(just_addrs))
-	for item in just_addrs:
-		# print(item)
-		addr = {item:0.00001}
-		addr = json.dumps(addr)
-		args = ["../bitcoin/src/bitcoin-cli","-named", "send","outputs=" + addr, "fee_rate=2"]
+		timeStarted = time.time()
 		subprocess.call(args)
+		timetaken = time.time() - timeStarted
+		
+		args = ["bitcoin-cli","listtransactions"]
+		timeStarted_list = time.time()
+		subprocess.call(args)
+		timetaken_list = time.time() - timeStarted_list
+		
+		writer.writerow([i,timetaken, timeStarted_list])
+
 	return
 	
 if __name__ == '__main__':
-	main()
+	main(200)
