@@ -45,7 +45,7 @@ def main(start, end):
 	return
 	
 if __name__ == '__main__':
-	main(9134,20000)
+	main(44724,75000)
 
 	# Notes:
 	# Mined at the beginning and at around 200

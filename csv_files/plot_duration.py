@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 
-with open('duration.csv', newline='') as f:
+with open('duration_test1.csv', newline='') as f:
     reader = csv.reader(f)
     # data = list(reader)
     header = next(reader)
