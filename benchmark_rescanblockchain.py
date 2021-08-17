@@ -31,4 +31,4 @@ def main(start, end):
 	return
 	
 if __name__ == '__main__':
-	main(0,100)
+	main(0,100000)
