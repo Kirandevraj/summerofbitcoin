@@ -19,7 +19,7 @@ def main(start, end):
 		if i % 10 == 0:
 			print(i, end)
 		addr = subprocess.check_output(["bitcoin-cli","-named","getnewaddress","address_type=" + address_types[i%3]])
-		args = ["bitcoin-cli","rescanblockchain"]
+		args = ["bitcoin-cli","rescanblockchain","500000", "600000"]
 
 		timeStarted = time.time()
 		call_output = subprocess.check_output(args)
