@@ -16,18 +16,18 @@ def main(start, end):
 	address_types = ["legacy", "p2sh-segwit", "bech32"]
 	
 	for i in range(start, end):
-		if i % 10 == 0:
+		if i % 100 == 0:
 			print(i, end)
 		addr = subprocess.check_output(["bitcoin-cli","-named","getnewaddress","address_type=" + address_types[i%3]])
 		args = ["bitcoin-cli","rescanblockchain","500000", "501000"]
-
-		timeStarted = time.time()
-		call_output = subprocess.check_output(args)
-		timeEnded = time.time()
-		timetaken = timeEnded - timeStarted
-		
-		writer.writerow([i,timetaken])
-		f.flush()
+		if i % 100 == 0:
+			timeStarted = time.time()
+			call_output = subprocess.check_output(args)
+			timeEnded = time.time()
+			timetaken = timeEnded - timeStarted
+			
+			writer.writerow([i,timetaken])
+			f.flush()
 	return
 	
 if __name__ == '__main__':
